@@ -8,23 +8,20 @@ class Node(object):
         self.right = right
 def isLeaf(root):
     return root.left == None and root.right == None
+def inorderTraversal(root):
+    if(isLeaf(root)):
+        return [root.val]
+    return inorderTraversal(root.left) + [root.val] + inorderTraversal(root.right)
+    
 def fun(root, targetVal):
-    def fun_helper(root,differenceDict,targetVal):
-        if(isLeaf(root)):
-            if(root.val in differenceDict):
-                return (root,differenceDict[root.val])
-            return None
-        if(root.val in differenceDict):
-            return (root,differenceDict[root.val])
-        differenceDict[root.val-targetVal] = root
-        answer = fun_helper(root.left,differenceDict,targetVal)
-        answer2 = fun_helper(root.right,differenceDict,targetVal)
-        if(answer != None):
-            return answer
-        if(answer2 != None):
-            return answer2
-        return None
-    return fun_helper(root,{},targetVal)
+    sortedlst = inorderTraversal(root)
+    hashSet = set()
+    for element in sortedlst:
+        if element in hashSet:
+            return (element,targetVal-element)
+        else:
+            hashSet.add(targetVal-element)         
+    return None
 if __name__ == "__main__":
     tree = Node(10,Node(5),Node(15,Node(11),Node(15)))
     x = fun(tree,20)
