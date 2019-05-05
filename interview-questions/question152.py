@@ -6,16 +6,16 @@
 """ 
 from random import random
 def fun(numsLst,probsLst):
-    determiningNumber = random()
-    curSum = 0
+    generatedNumber = random()
+    probabilityThreshold = 0
     for i,probability in enumerate(probsLst):
-        curSum += probability
-        if determiningNumber < curSum:
+        probabilityThreshold += probability
+        if generatedNumber < curSum:
             return numsLst[i] 
 
 if __name__ == "__main__":
-    sumOfNums = [0 for _ in range(4)]
+    sumOfNums = [0 for _ in range(8)]
     iterations = 100000
     for _ in range(iterations):
-        sumOfNums[fun([1,2,3,4],[0.1,0.5,0.2,0.2])-1]+=1
+        sumOfNums[fun([1,2,3,4,5,6,7,8],[0.1,0.2,0.1,0.2,0.05,.3,.025,.025])-1]+=1
     print(list(map(lambda x: x/iterations,sumOfNums)))
