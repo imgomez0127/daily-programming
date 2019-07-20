@@ -1,4 +1,19 @@
-import numpy as np
+"""
+    Question asked by microsoft knowing what a minimum spanning tree is
+    implement a maximum spanning tree (I accomplished this using prims
+    algorithm however kruskals algorithm is another valid way to solve
+    this question
+    
+    Prims algorithm but for maximum spanning tree:
+        initialize and label all nodes from 1-n
+        put the 0th node in the tree
+        while not all nodes are in the tree:
+            pick the lowest numbered node in the tree which has the highest weighted edge
+            add the node to the tree 
+    
+    This implementation uses an adjacency matrix representation of the graph
+    and the test matrix is from http://www.mathcs.emory.edu/~cheung/Courses/171/Syllabus/11-Graph/weighted.html
+"""            
 def find_max_edge(graph,traversed):
     maximum_edge = 0
     node = -1
@@ -30,13 +45,6 @@ def prims_algorithm(graph):
         new_tree[new_edge][current_edge] = graph[current_edge][new_edge]
     return new_tree
 if __name__ == "__main__":
-#    [[0,4,0,0,0,0,0,8,0],
-#    [4,0,8,0,0,0,0,11,0],
-#    [0,8,0
-#    [0,0,7,0,9,14,0,0,0],
-#    [0,0,0,9,0,10,0,0,0],
-#    [0,0,4,14,10,0,2,0,0],
-#    [0,0
     matrix = [[0,3,0,2,0,0,0,0,4],
             [3,0,0,0,0,0,0,4,0],
             [0,0,0,6,0,1,0,2,0],
