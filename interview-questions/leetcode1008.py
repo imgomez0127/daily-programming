@@ -15,7 +15,7 @@ def find_right_subtree(lst):
     for i in range(len(lst)):
         if lst[i] > lst[0]:
             return i
-    return 1 
+    return len(lst)+1
 def bstFromPreorder(preorder):
     if(preorder == []):
         return None
@@ -30,6 +30,6 @@ def bstFromPreorder(preorder):
     return root
 
 if __name__ == "__main__":
-    preorder_tree = [8,5,1,7,10,12]
+    preorder_tree = [4,2]
     tree = bstFromPreorder(preorder_tree)
     print(tree)
