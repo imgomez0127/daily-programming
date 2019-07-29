@@ -1,5 +1,6 @@
 """
     Implement O(1) space Fib function
+    Apple[Easy]
 """
 def fib(n):
     a = 0
