@@ -16,3 +16,4 @@ def sortNums(nums):
     return list1 + list2 + list3
 print(sortNums([3, 3, 2, 1, 3, 2, 1]))
 # [1, 1, 2, 2, 3, 3, 3]
+#TODO const space implementation
