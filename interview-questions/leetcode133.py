@@ -1,3 +1,13 @@
+"""
+    Graph looks like this
+    
+    1 ---- 2
+    |      |
+    |      |
+    4 ---- 3
+    
+    beats 95%+ sometimes cuz leetcode runtime is iffy
+"""
 class Node(object):
     def __init__(self, val, neighbors=[]):
         self.val = val
