@@ -15,7 +15,8 @@ class Solution:
         seen_chars[s[0]] = 0
         for i in range(1,len(s)):
             if seen_chars[s[i]] != -1:
-                starting_char = max(seen_chars[s[i]] + 1,len(s)-1)
+                starting_char = max(starting_char,min(seen_chars[s[i]] + 1,len(s)-1))
+            print(starting_char)
             max_len = max(max_len,i-starting_char+1)
             seen_chars[s[i]] = i
         return max_len
