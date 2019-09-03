@@ -1,9 +1,12 @@
 def max_subarray_sum(arr):
-    max_val = max(arr)
-    for window_size in range(len(arr)):
-        for i in range(len(arr)):
-            max_val = max(max_val,sum(arr[i:i+window_size+1]))
-    return max_val
+    max_sum = cur_sum = 0
+    for num in arr:
+        if num > cur_sum+num:
+            max_sum = max(cur_sum,max_sum)
+            cur_sum = num
+        else:
+            cur_sum += num
+    return max(max_sum,cur_sum)
 
 print(max_subarray_sum([34, -50, 42, 14, -5, 86]))
 # 137
