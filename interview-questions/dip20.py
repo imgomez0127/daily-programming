@@ -1,16 +1,25 @@
-from collections import OrderedDict
+from queue import LifoQueue
 class Solution(object):
     
     def interview_question(self,sequence):
-        d = OrderedDict()
+        stack = LifoQueue()
+        cur_num_count = None
         while sequence != 0:
             num = sequence % 10
-            d[num] = d.get(num,0) + 1    
+            if cur_num_count == None :
+                cur_num_count = [num,1]
+            elif num != cur_num_count[0]:
+                stack.put(cur_num_count)
+                cur_num_count = [num,1]
+            else:
+                cur_num_count[1] += 1 
             sequence = sequence // 10
+        stack.put(cur_num_count)
         output_num = 0
-        for num in d.keys():
-            output_num = 10 * output_num + d[num] 
-            output_num = 10 * output_num + num
+        while(not stack.empty()):
+            num = stack.get()
+            output_num = 10 * output_num + num[1] 
+            output_num = 10 * output_num + num[0]
         return output_num
 s = Solution()
 ans1 = s.interview_question(1)
