@@ -83,6 +83,7 @@ def quickSort_helper(arr,low,high):
 
 def quickSort(arr):
     return quickSort_helper(arr,0,len(arr))
+
 def mergeSort_helper(arr,scratch,low,high):
     if(low < high):
         mid = low + ((high-1)-low)//2
