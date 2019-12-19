@@ -6,7 +6,7 @@ class WeightedEdge:
     def __str__(self):
         return "({},{},{})".format(self.start,self.end,self.weight)
 class Graph:
-    def __init__(vertex_amount,edges):
+    def __init__(self,vertex_amount,edges):
         self.vertices = [i for i in range(vertex_amount)]
         self.edges = edges
 
@@ -39,5 +39,17 @@ def kruskals(graph):
         if start_parent != end_parent:
             union(start_parent,end_parent,mst)
             mst_edges.append(cur_edge)
+        i += 1
     return mst,mst_edges
 
+if __name__ == "__main__":
+    edges = [WeightedEdge(0,2,2), WeightedEdge(0,4,7), WeightedEdge(1,2,9), 
+            WeightedEdge(1,3,9), WeightedEdge(2,0,2), WeightedEdge(2,1,9), 
+            WeightedEdge(2,4,2), WeightedEdge(2,5,7), WeightedEdge(3,1,9), 
+            WeightedEdge(3,5,5), WeightedEdge(4,0,7), WeightedEdge(4,2,2),
+            WeightedEdge(5,2,7), WeightedEdge(5,3,5), WeightedEdge(5,6,3), 
+            WeightedEdge(5,7,7), WeightedEdge(6,4,9), WeightedEdge(6,5,3),
+            WeightedEdge(6,7,4), WeightedEdge(7,4,9), WeightedEdge(7,5,7), 
+            WeightedEdge(7,6,4)]
+    graph = Graph(7,edges)
+    print(kruskals(graph))
