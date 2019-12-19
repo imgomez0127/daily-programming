@@ -29,8 +29,8 @@ def find(edge,mst):
 def kruskals(graph):
     mst = make_set(graph)
     graph_edges = graph.edges
-    graph_edges.sort(key=lambda x: x.weight)
     graph_edges.sort(key=lambda x: x.start)
+    graph_edges.sort(key=lambda x: x.weight)
     mst_edges = []
     i = 0
     while len(mst_edges) < len(graph.vertices)-1:
@@ -43,13 +43,12 @@ def kruskals(graph):
     return mst,mst_edges
 
 if __name__ == "__main__":
-    edges = [WeightedEdge(0,2,2), WeightedEdge(0,4,7), WeightedEdge(1,2,9), 
-            WeightedEdge(1,3,9), WeightedEdge(2,0,2), WeightedEdge(2,1,9), 
-            WeightedEdge(2,4,2), WeightedEdge(2,5,7), WeightedEdge(3,1,9), 
-            WeightedEdge(3,5,5), WeightedEdge(4,0,7), WeightedEdge(4,2,2),
-            WeightedEdge(5,2,7), WeightedEdge(5,3,5), WeightedEdge(5,6,3), 
-            WeightedEdge(5,7,7), WeightedEdge(6,4,9), WeightedEdge(6,5,3),
-            WeightedEdge(6,7,4), WeightedEdge(7,4,9), WeightedEdge(7,5,7), 
-            WeightedEdge(7,6,4)]
-    graph = Graph(7,edges)
-    print(kruskals(graph))
+    edges = [WeightedEdge(0,2,14),WeightedEdge(0,3,9),WeightedEdge(0,4,8),
+        WeightedEdge(1,2,17),WeightedEdge(1,3,12),WeightedEdge(1,4,10),
+        WeightedEdge(2,0,14),WeightedEdge(2,1,17),WeightedEdge(3,0,9),
+        WeightedEdge(3,1,12),WeightedEdge(3,4,9),WeightedEdge(4,0,8),
+        WeightedEdge(4,1,10),WeightedEdge(4,3,9)]
+    graph = Graph(5,edges)
+    answer = kruskals(graph)
+    print("MST: ", answer[0])
+    print("Edges: ", list(map(lambda x: str(x),answer[1])))
