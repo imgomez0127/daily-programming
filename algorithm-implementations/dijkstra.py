@@ -55,6 +55,17 @@ def dijkstras(graph,source):
                     heappush(priority_queue,graph.nodes[edge.end])
     return graph.nodes 
 
+def backtrack(graph,label):
+    nodes = graph.nodes
+    cur_node = label
+    backtrack_str = "{}".format(nodes[cur_node].label)
+    while(nodes[cur_node].previous_node != -1):
+        cur_node = nodes[cur_node].previous_node
+        backtrack_str = " -> " + backtrack_str
+        backtrack_str = "{}".format(nodes[cur_node].label) + backtrack_str
+    backtrack_str += " Distance: {}".format(nodes[label].distance)
+    return backtrack_str
+
 if __name__ == "__main__":
     edges = [WeightedEdge(0,1,3),WeightedEdge(0,3,7),
             WeightedEdge(1,0,3),WeightedEdge(1,2,4),WeightedEdge(1,3,2),
@@ -62,6 +73,6 @@ if __name__ == "__main__":
             WeightedEdge(3,0,7),WeightedEdge(3,1,4),WeightedEdge(3,2,5),
             WeightedEdge(3,4,4),WeightedEdge(4,2,6),WeightedEdge(4,3,4)]
     graph = Graph(5,edges)  
-    print(graph) 
     x = dijkstras(graph,0)
-    print(x)
+    for node in graph.nodes:
+        print(backtrack(graph,node.label))
