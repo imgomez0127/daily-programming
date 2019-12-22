@@ -12,6 +12,7 @@ class WeightedEdge:
         self.start = start
         self.end = end
         self.weight = weight
+
     def __str__(self):
         return "({},{},{})".format(self.start,self.end,self.weight)
 
@@ -27,6 +28,7 @@ class Graph:
         self.nodes = [Node(float("inf"),i,-1) for i in range(nodes)]
         self.__edges = edges
         self.edges = Graph.create_edges(self.nodes,self.__edges)
+
     def __str__(self):
         return str(list(map(lambda x: str(x), self.nodes))) + "\n" + str(list(map(lambda x: str(x), self.__edges)))
 
@@ -48,7 +50,7 @@ def dijkstras(graph,source):
             if edge.end not in visited:
                 distance = edge.weight + cur_node.distance 
                 if distance < graph.nodes[edge.end].distance:
-                    graph.nodes[edge.end].distance = distance
+                    graph.nodes[edge.end].distance = distance 
                     graph.nodes[edge.end].previous_node = cur_node.label
                     heappush(priority_queue,graph.nodes[edge.end])
     return graph.nodes 
