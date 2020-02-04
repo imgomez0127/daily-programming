@@ -36,14 +36,16 @@ class Queue(object):
     def front(self):
         while not self.stack1.is_empty():
             self.stack2.push(self.stack1.pop())
-        x = self.stack1.peek()
+        x = self.stack2.peek()
         while not self.stack2.is_empty():
             self.stack1.push(self.stack2.pop())
+        return x
 
 
 if __name__ == '__main__':
     q = Queue()
     for i in range(5):
         q.enqueue(i)
+    print(q.front())
     for i in range(5):
         print(q.dequeue())
