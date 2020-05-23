@@ -17,8 +17,29 @@ def inorder(T):
         yield T.x
         yield from inorder(T.right)
 
+def inorder_2(T):
+    if T is None:
+        return
+    if is_leaf(T):
+        yield T.x
+    else:
+        for x in inorder(T.left):
+            yield x
+        yield T.x
+        for x in inorder(T.right):
+            yield x
+
 def validate_bst(T):
     inorder_traversal = inorder(T)
+    is_valid = True
+    previous_node = next(inorder_traversal)
+    for current_node in inorder_traversal:
+        is_valid &= current_node > previous_node
+        previous_node = current_node
+    return is_valid
+
+def validate_bst_2(T):
+    inorder_traversal = inorder_2(T)
     is_valid = True
     previous_node = next(inorder_traversal)
     for current_node in inorder_traversal:
@@ -33,4 +54,7 @@ if __name__ == "__main__":
     print(validate_bst(T1))
     print(validate_bst(T2))
     print(validate_bst(T3))
+    print(validate_bst_2(T1))
+    print(validate_bst_2(T2))
+    print(validate_bst_2(T3))
     print(list(inorder(T1)))
