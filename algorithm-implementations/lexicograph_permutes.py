@@ -30,4 +30,4 @@ def lexicographicPermutes(s):
         s = new_permute
     return all_permutes
 
-print(lexicographicPermutes(["1","2","3","4","5","6","7","8","9","10","11"]))
+print(lexicographicPermutes(["1","2","3","4","5","6","7","8","9"]))
