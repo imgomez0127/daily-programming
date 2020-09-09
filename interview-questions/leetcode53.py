@@ -14,7 +14,7 @@ class Solution:
         max_sum = nums[0]
         cur_sum = 0
         for val in nums:
-            cur_sum = max(val,cur_sum+val)
+            cur_sum = max(val, cur_sum+val)
             max_sum = max(max_sum, cur_sum)
         return max_sum
 
