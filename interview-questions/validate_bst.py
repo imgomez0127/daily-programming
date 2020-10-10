@@ -47,6 +47,16 @@ def validate_bst_2(T):
         previous_node = current_node
     return is_valid
 
+def validate_bst_helper(T,min_val,max_val):
+    if not T:
+        return True
+    left_rec = validate_bst_helper(T.left,T.left.x,max_val) if T.left else True
+    right_rec = validate_bst_helper(T.right,min_val,T.right.x) if T.right else True
+    return (min_val <= T.x <= max_val) and left_rec and right_rec
+
+def validate_bst3(T):
+    return validate_bst_helper(T,T.x,T.x)
+
 if __name__ == "__main__":
     T1 = Node(2,Node(1,Node(0)),Node(4,Node(3),Node(5)))
     T2 = Node(2,Node(3),Node(1))
@@ -57,4 +67,7 @@ if __name__ == "__main__":
     print(validate_bst_2(T1))
     print(validate_bst_2(T2))
     print(validate_bst_2(T3))
+    print(validate_bst3(T1))
+    print(validate_bst3(T2))
+    print(validate_bst3(T3))
     print(list(inorder(T1)))
