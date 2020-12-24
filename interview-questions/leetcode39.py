@@ -15,27 +15,21 @@ class Solution:
             return combinations
         if target == 0:
             return [[]]
-        for val in candidates:
+        for i, val in enumerate(candidates):
             if val <= target:
                 results = self.find_combinations(candidates, target-val)
                 for arr in results:
                     arr.append(val)
                 combinations.extend(results)
             else:
-                combinations.extend(self.find_combinations(candidates[1:], target))
+                combinations.extend(self.find_combinations(candidates[i+1:], target))
         return combinations
 
-    def filter(self, combinations):
-        final = set()
-        for combination in combinations:
-            final.add(tuple(sorted(combination)))
-        return list(map(lambda x: list(x), final))
-
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        candidates.sort()
         results = self.find_combinations(candidates, target)
-        results = self.filter(results)
         return results
 
 
 if __name__ == "__main__":
-    print(Solution().combinationSum([2,3,6,7], 6))
+    print(Solution().combinationSum([2,3,6,7], 7))
