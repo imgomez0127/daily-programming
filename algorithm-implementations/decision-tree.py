@@ -26,6 +26,13 @@ def get_feature(data, features):
             best_feature = feature
     return best_feature
 
+def check_inputs(data):
+    data = data.to_numpy()
+    for i in range(data.shape[1]):
+        if not (data[0, i] == data[:, i]).all():
+            return False
+    return True
+
 class Node:
     def __init__(self, value, counts, edges=[]):
         self.value = value
@@ -43,6 +50,8 @@ class DecisionTree:
         if len(features) == 0:
             return
         if len(set(data[['class']].values.reshape(-1))) == 0:
+            return
+        if check_inputs(data):
             return
         feature = get_feature(data, features)
         categories = set(data[[feature]])
