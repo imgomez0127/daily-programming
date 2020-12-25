@@ -64,9 +64,9 @@ class DecisionTree:
         self.features.remove('class')
 
     def build_tree_helper(self, root, features, data):
-        if len(features) == 0:
+        if not features:
             return
-        if len(set(data[['class']].values.reshape(-1))) == 0:
+        if not set(data[['class']].values.reshape(-1)):
             return
         if check_inputs(data):
             return
@@ -84,6 +84,19 @@ class DecisionTree:
     def build_tree(self, data):
         self.build_tree_helper(self.root, self.features, data)
 
+    def predict_helper(self, root, data):
+        if not root.edges:
+            return root.decision
+        feature = root.edges[0].feature
+        feature_val = data[feature]
+        for node in root.edges:
+            if node.value == feature_val:
+                return self.predict_helper(node, data)
+        return root.decision
+
+    def predict(self, data):
+        return self.predict_helper(self.root, data)
+
     def build_str(self, root, i):
         S = (2 * i * '-') + str(root) + '\n'
         for node in root.edges:
@@ -92,6 +105,9 @@ class DecisionTree:
 
     def __str__(self):
         return self.build_str(self.root, 0)
+
+    def __call__(self, data):
+        return self.predict(data)
 
 
 if __name__ == "__main__":
@@ -109,3 +125,7 @@ if __name__ == "__main__":
     tree = DecisionTree(df)
     tree.build_tree(df)
     print(tree)
+    print("Test Item:")
+    print(df.iloc[0])
+    print("Prediction")
+    print(tree(df.iloc[0]))
