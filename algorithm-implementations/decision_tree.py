@@ -54,7 +54,7 @@ class Node:
         self.decision = max(counts.keys(), key=lambda x: counts[x])
 
     def __str__(self):
-        return f'{self.feature} Node {self.value} Decision: {self.decision}'
+        return f'{self.feature} Node Value: {self.value} Decision: {self.decision}'
 
 class DecisionTree:
     def __init__(self, data):
@@ -84,6 +84,16 @@ class DecisionTree:
     def build_tree(self, data):
         self.build_tree_helper(self.root, self.features, data)
 
+    def build_str(self, root, i):
+        S = (2 * i * '-') + str(root) + '\n'
+        for node in root.edges:
+            S += self.build_str(node, i+1)
+        return S
+
+    def __str__(self):
+        return self.build_str(self.root, 0)
+
+
 if __name__ == "__main__":
     # For this example dataset I discritize the values because I am lazy
     # and do not want to deal with having to split real valued numbers into classes
@@ -96,9 +106,6 @@ if __name__ == "__main__":
         classes[classes == class_name] = i
     df['class'] = classes
     df = df.astype('int32')
-    print(df)
-    print(df.dtypes)
     tree = DecisionTree(df)
     tree.build_tree(df)
-    for i in range(len(tree.root.edges)):
-        print(list(map(str, tree.root.edges[i].edges)))
+    print(tree)
