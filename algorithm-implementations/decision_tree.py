@@ -12,8 +12,11 @@
 """
 from math import log
 from collections import Counter
+import numpy as np
 import pandas as pd
 
+def accuracy(true, preds):
+    return np.sum(true == preds)/len(preds)
 def conditional_entropy(data, feature):
     total_samples = data.shape[0]
     entropy = 0
@@ -129,3 +132,5 @@ if __name__ == "__main__":
     print(df.iloc[0])
     print("Prediction")
     print(tree(df.iloc[0]))
+    preds = np.array([tree(df.iloc[i]) for i in range(df.shape[0])])
+    print(f'Tree Accuracy on training set: {accuracy(classes, preds)}')
