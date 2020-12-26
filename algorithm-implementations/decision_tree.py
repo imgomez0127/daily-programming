@@ -124,13 +124,24 @@ if __name__ == "__main__":
     for i, class_name in enumerate(class_names):
         classes[classes == class_name] = i
     df['class'] = classes
+    columns = df.columns
+    df = df.sample(frac=1).reset_index(drop=True)
     df = df.astype('int32')
-    tree = DecisionTree(df)
-    tree.build_tree(df)
+    training_size = int(df.shape[0] * .8)
+    training_data = df.iloc[:training_size]
+    testing_data = df.iloc[training_size:]
+    tree = DecisionTree(training_data)
+    tree.build_tree(training_data)
     print(tree)
     print("Test Item:")
-    print(df.iloc[0])
+    print(training_data.iloc[0])
     print("Prediction:")
-    print(class_names[tree(df.iloc[0])])
-    preds = np.array([tree(df.iloc[i]) for i in range(df.shape[0])])
-    print(f'Tree Accuracy on training set: {accuracy(classes, preds)}')
+    print(class_names[tree(training_data.iloc[0])])
+    preds = np.array([tree(training_data.iloc[i]) for i in range(training_data.shape[0])])
+    true = training_data[['class']].values.reshape(-1)
+    print(f'Tree Accuracy on training set: {accuracy(true, preds)}')
+    print(testing_data)
+    preds = np.array([tree(testing_data.iloc[i]) for i in range(testing_data.shape[0])])
+    print(f'Predictions {preds}')
+    true = testing_data[['class']].values.reshape(-1)
+    print(f'Tree Accuracy on training set: {accuracy(true, preds)}')
