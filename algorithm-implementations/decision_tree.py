@@ -17,18 +17,24 @@ import pandas as pd
 
 def accuracy(true, preds):
     return np.sum(true == preds)/len(preds)
+
 def conditional_entropy(data, feature):
     total_samples = data.shape[0]
     entropy = 0
+    # Convert data to numpy arrays so we can put it into a counter
     converted_data = data[[feature]].values.reshape(-1)
+    # Find count X=x_i
     value_amts = Counter(converted_data)
     for value in value_amts.keys():
         converted_data = data[data[feature] == value]['class'].values.reshape(-1)
+        # Find count Y=y_i when X=x_i
         value_amt = data[data[feature] == value].shape[0]
         category_counts = Counter(converted_data)
         category_entropy = 0
         for count in category_counts.values():
+            # Compute Sum P(Y=y_i|X=x_i)
             category_entropy += count/value_amt * log(count/value_amt)
+        # Compute Sum P(X=x_i) * Sum P(Y=y_i|X=x_i) (this is the conditional entropy formula)
         entropy += value/total_samples * category_entropy
     return entropy
 
