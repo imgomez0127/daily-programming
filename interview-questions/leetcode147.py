@@ -12,23 +12,24 @@ class Node:
 
 
 class Solution:
-
-
     def insertionSortList(self, head):
-        cur = head
-        prev_nodes = [cur]
-        while cur := cur.next:
-            tmp = cur.val
-            prev_nodes.append(cur)
-            for i in reversed(range(len(prev_nodes))):
-                if i == 0:
-                    prev_nodes[i].val = tmp
-                elif prev_nodes[i-1].val > tmp:
-                    prev_nodes[i].val = prev_nodes[i-1].val
-                else:
-                    prev_nodes[i].val = tmp
-                    break
-        return prev_nodes[0]
+        if not head:
+            return head
+        start = Node(float('-inf'), head)
+        cur = start.next
+        while cur.next:
+            # If not sorted do work else skip
+            if cur.next.val < cur.val:
+                old_next = cur.next
+                cur.next = cur.next.next
+                tmp = start
+                while tmp.next.val < old_next.val:
+                    tmp = tmp.next
+                old_next.next = tmp.next
+                tmp.next = old_next
+            else:
+                cur = cur.next
+        return start.next
 
 if __name__ == "__main__":
     Llist1 = Node(6,next=Node(3))
