@@ -10,35 +10,25 @@ class Node:
             cur_node = cur_node.next
         return str_representation
 
+
 class Solution:
 
-    def get(self,node,i):
-        cur_node = node
-        for _ in range(i):
-            cur_node = cur_node.next 
-        return cur_node
 
     def insertionSortList(self, head):
-        cur_node = head
-        i = 1
-        while cur_node != None:
-            has_swapped = False
-            next_node = head
-            swap_val = cur_node.val
-            for _ in range(i):
-                if not has_swapped and swap_val < next_node.val:
-                    temp = next_node.val
-                    next_node.val = swap_val
-                    swap_val = temp
-                    has_swapped = True
-                elif has_swapped:
-                    temp = next_node.val
-                    next_node.val = swap_val
-                    swap_val = temp
-                next_node = next_node.next
-            cur_node = cur_node.next
-            i += 1
-        return head
+        cur = head
+        prev_nodes = [cur]
+        while cur := cur.next:
+            tmp = cur.val
+            prev_nodes.append(cur)
+            for i in reversed(range(len(prev_nodes))):
+                if i == 0:
+                    prev_nodes[i].val = tmp
+                elif prev_nodes[i-1].val > tmp:
+                    prev_nodes[i].val = prev_nodes[i-1].val
+                else:
+                    prev_nodes[i].val = tmp
+                    break
+        return prev_nodes[0]
 
 if __name__ == "__main__":
     Llist1 = Node(6,next=Node(3))
