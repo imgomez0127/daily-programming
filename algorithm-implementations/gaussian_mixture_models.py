@@ -1,0 +1,64 @@
+import numpy as np
+import pandas as pd
+import scipy.stats
+
+def preprocess_data(data):
+    return data
+
+def norm(V):
+    return sum(V@V.T)
+
+class GMM:
+    def __init__(self, feature_size, num_classes=3):
+        self.means = np.random.random((feature_size, num_classes))
+        self.covs = np.array([np.identity(feature_size) for _ in range(num_classes)])
+        self.num_classes = num_classes
+        self.pis = np.random.random((1, num_classes))
+
+    def expectation_step(self, iris_data):
+        gammas = []
+        for i in range(len(iris_data)):
+            sample = iris_data[i]
+            normalization_term = 0
+            sample_gammas = np.zeros((self.num_classes))
+            for j in range(self.num_classes):
+                normal_dist = scipy.stats.multivariate_normal(
+                    mean=self.means[j], covs=self.covs[j])
+                # Compute numerator of GMM probability
+                prob = normal_dist.pdf(sample)
+                prob *= self.pis[j]
+                sample_gammas[j] = prob
+                normalization_term += prob
+            gammas.append(sample_gammas/normalization_term)
+        return np.array(gammas)
+
+    def maximization_step(self, iris_data, gammas):
+        assignment_counts = np.array([sum(gammas[:, i])
+                                      for i in range(self.num_classes)])
+        means = np.zeros(self.means.shape)
+        covs = np.zeros(self.covs.shape)
+        pis = assignment_counts/len(iris_data)
+        for i in range(len(iris_data)):
+            sample = iris_data[i]
+            for j in range(len(gammas)):
+                means[j] += gammas[i][j]*sample
+                std = (sample-self.means[j])
+                covs[j] += gammas[i][j]*(std.T@std)
+        means = means/assignment_counts[:, None]
+        covs = covs/assignment_counts[:, None]
+        return means, covs, pis
+
+
+    def train(self, iris_data, epochs=100):
+        for _ in range(epochs):
+            gammas = self.expectation_step(iris_data)
+            means, covs, pis = self.maximization_step(iris_data, gammas)
+            self.means = means
+            self.covs = covs
+            self.pis = pis
+
+
+def main():
+    iris_data = pd.read_csv('iris.data')
+    GMM_MODEL = GMM(iris_data.shape[1])
+    GMM_MODEL.train(iris_data)
