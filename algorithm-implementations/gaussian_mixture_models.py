@@ -32,6 +32,14 @@ class GMM:
             gammas.append(sample_gammas/normalization_term)
         return np.array(gammas)
 
+    def predict(self, data_point):
+        if data_point.shape > 2:
+            raise ValueError()
+        if data_point.shape != 2:
+            data_point.reshape((1, -1))
+        gammas = self.expectation_step(data_point)
+        return np.argmax(gammas, axis=1)
+
     def maximization_step(self, iris_data, gammas):
         assignment_counts = np.array([sum(gammas[:, i])
                                       for i in range(self.num_classes)])
@@ -54,6 +62,9 @@ class GMM:
             self.means = means
             self.covs = covs
             self.pis = pis
+
+    def __call__(self, data_point):
+        return self.predict(data_point)
 
 
 def main():
